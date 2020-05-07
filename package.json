@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "lint": "eslint **/*.js",
     "test": "jest --verbose --coverage",
     "test-watch": "jest --watchAll --verbose --coverage"
@@ -21,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/madisonstehle/caps/issues"
   },
-  "homepage": "https://github.com/madisonstehle/caps#readme"
+  "homepage": "https://github.com/madisonstehle/caps#readme",
+  "dependencies": {
+    "faker": "^4.1.0"
+  }
 }
