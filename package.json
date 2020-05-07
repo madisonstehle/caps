@@ -1,0 +1,22 @@
+{
+  "name": "caps",
+  "version": "1.0.0",
+  "description": "Code Academy Parcel Service (CAPS)",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madisonstehle/caps.git"
+  },
+  "author": "Madison Stehle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/madisonstehle/caps/issues"
+  },
+  "homepage": "https://github.com/madisonstehle/caps#readme"
+}
