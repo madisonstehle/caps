@@ -2,13 +2,14 @@
 
 const globalEmitter = require('./lib/events.js');
 
-const eventHandler = (payload) => {
-  // do stuff
-  console.log(payload);
-};
+const logPickup = require('./lib/handlers.js').pickupOrderLogger;
+const logInTransit = require('./lib/handlers.js').inTransitHandler;
+const endEvent = require('./lib/handlers.js').endEventDelivered;
 
-globalEmitter.on('pickup', eventHandler);
+globalEmitter.on('pickup', logPickup);
 
-// globalEmitter.emit('shout');
-
+require('./lib/driver.js');
 require('./lib/vendor.js');
+
+globalEmitter.on('in-transit',  logInTransit);
+globalEmitter.on('delivered', endEvent);
