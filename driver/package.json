@@ -4,7 +4,11 @@
   "description": "delivery driver logger",
   "main": "driver.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node driver.js",
+    "dev": "nodemon driver.js",
+    "lint": "eslint **/*.js",
+    "test": "jest --verbose --coverage",
+    "test-watch": "jest --watchAll --verbose --coverage"
   },
   "author": "Madison Stehle",
   "license": "MIT"
