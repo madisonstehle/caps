@@ -7,7 +7,7 @@ An event driven application that “distributes” logging commands to separate 
 
 ### Links and Resources
 
-- [Submission PR]()
+- [Submission PR](https://github.com/madisonstehle/caps/pull/2)
 - [ci/cd](https://github.com/madisonstehle/caps/actions) (GitHub Actions)
 
 
