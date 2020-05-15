@@ -9,12 +9,12 @@ socket.connect({port: 3000, host: 'localhost'}, () => {
   console.log('socket connected to server on port 3000')
 });
 
-// socket.on('data', (payload) => {
-//   let parsedPayload = JSON.parse(payload.toString());
+socket.on('data', (payload) => {
+  let parsedPayload = JSON.parse(payload.toString());
 
-//   if (parsedPayload.event === 'delivered') {
-//     console.log(`VENDOR Thank you for delivering order ${payload.order.orderID}`);  }
-// })
+  if (parsedPayload.event === 'delivered') {
+    console.log(`VENDOR Thank you for delivering order ${parsedPayload.order.orderID}`);  }
+})
 
 /**
  * creates a new order and emits a pickup every 5 seconds
