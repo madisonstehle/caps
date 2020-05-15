@@ -25,3 +25,5 @@ const driverDelivered = (payload) => {
     return false
   }
 }
+
+module.exports = { driverPickUpHandler, driverDelivered }

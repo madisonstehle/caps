@@ -11,5 +11,8 @@
     "test-watch": "jest --watchAll --verbose --coverage"
   },
   "author": "Madison Stehle",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "faker": "^4.1.0"
+  }
 }
