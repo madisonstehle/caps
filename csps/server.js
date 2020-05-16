@@ -1,14 +1,16 @@
 'use strict';
 
-const net = require('net');
-const server = net.createServer();
+// const net = require('net');
+// const server = net.createServer();
+// let socketPool = [];
+// let PORT = 3000;
 
-let socketPool = [];
-let PORT = 3000;
+const sio = require('socket.io');
+const server = sio(3000);
 
-server.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`);
-});
+// server.listen(PORT, () => {
+//   console.log(`Server is up and running on port ${PORT}`);
+// });
 
 const cspsLogger = (payload) => {
   let parsedPayload = JSON.parse(payload.toString());
@@ -37,13 +39,11 @@ const cspsLogger = (payload) => {
   }
 
   // if (parsedPayload.event === 'pickup') {
-  // }
-
-  
+  // } 
 }
 
 server.on('connection', (socket) => {
-  console.log('Hey! A socket connected to me!');
-  socketPool.push(socket);
+  console.log(`socket ${socket.id} joined the party!`);
+  // socketPool.push(socket);
   socket.on('data', cspsLogger);
 });
