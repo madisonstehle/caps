@@ -1,29 +1,26 @@
 'use strict';
 
-const net = require('net');
-const socket = new net.Socket();
+const sio = require('socket.io-client');
+const driverSocket = sio.connect('http://localhost:3000/csps');
 
-socket.connect({port: 3000, host: 'localhost'}, () => {
-  console.log('DRIVER socket connected to server on port 3000');
-});
+driverSocket.emit('join', 'driver');
 
-socket.on('data', (payload) => {
-  let parsedPayload = JSON.parse(payload.toString());
+/**
+ * Logs that the driver picked up the order, emits in-transit and delivered, logs delivered
+ * @param   {object} payload
+ */
+const driverActions = (payload) => {
+  console.log(`DRIVER picked up order ${payload.orderID}`);
+  
+  setTimeout(() => {
+    driverSocket.emit('in-transit', payload);
+    
+    setTimeout(() => {
+      driverSocket.emit('delivered', payload);
+      console.log(`DRIVER delivered order ${payload.orderID}`);
+    }, 3000);
+    
+  }, 1000);
+}
 
-  switch (parsedPayload.event) {
-    case 'pickup':
-      setTimeout( () => {
-        let nextOrderStep = { event: 'in-transit', order: parsedPayload.order };
-        console.log(`DRIVER picked up order ${parsedPayload.order.orderID}`);
-        socket.write(JSON.stringify(nextOrderStep));
-      }, 1000);
-      break;
-    case 'in-transit':
-      setTimeout( () => {
-        let deliveredOrder = { event: 'delivered', order: parsedPayload.order };
-        console.log(`DRIVER delivered order ${parsedPayload.order.orderID}`);
-        socket.write(JSON.stringify(deliveredOrder));
-      }, 3000);
-      break;
-  }
-});
+driverSocket.on('pickup', driverActions);
