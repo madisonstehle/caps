@@ -11,5 +11,8 @@
     "test-watch": "jest --watchAll --verbose --coverage"
   },
   "author": "Madison Stehle",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "socket.io-client": "^2.3.0"
+  }
 }

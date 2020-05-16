@@ -13,6 +13,7 @@
   "author": "Madison Stehle",
   "license": "MIT",
   "dependencies": {
-    "faker": "^4.1.0"
+    "faker": "^4.1.0",
+    "socket.io": "^2.3.0"
   }
 }

@@ -1,49 +1,39 @@
 'use strict';
 
-// const net = require('net');
-// const server = net.createServer();
-// let socketPool = [];
-// let PORT = 3000;
+const sio = require('socket.io')(3000);
 
-const sio = require('socket.io');
-const server = sio(3000);
+const cspsIO = sio.of('/csps');
 
-// server.listen(PORT, () => {
-//   console.log(`Server is up and running on port ${PORT}`);
-// });
+cspsIO.on('connection', (socket) => {
+  console.log(`socket ${socket.id} joined the party!`);
 
-const cspsLogger = (payload) => {
-  let parsedPayload = JSON.parse(payload.toString());
+  socket.on('join', (room) => {
+    socket.join(room);
+  })
 
-  for ( let i = 0 ; i < socketPool.length ; i++) {
-    let socket = socketPool[i];
-    socket.write(payload);
-  };
+  socket.on('pickup', pickupOrderLogger);
 
-  switch (parsedPayload.event){
-    case 'pickup':
-      console.log('EVENT pickup');
-      console.log(`\t - Time: ${parsedPayload.order.time}`);
-      console.log(`\t - Store: ${parsedPayload.order.store}`);
-      console.log(`\t - OrderID: ${parsedPayload.order.orderID}`);
-      console.log(`\t - Customer: ${parsedPayload.order.customer}`);
-      console.log(`\t - Address: ${parsedPayload.order.address}`);
-      break;
-    case 'in-transit':
-      console.log(`EVENT in-transit order ${parsedPayload.order.orderID}`);
-      break;
-    case 'delivered':
-      console.log(`EVENT delivered order ${parsedPayload.order.orderID}`);
-      console.log('=============================');
-      break;
-  }
+  socket.on('in-transit', inTransitHandler);
 
-  // if (parsedPayload.event === 'pickup') {
-  // } 
+  socket.on('delivered', endEventDelivered)
+});
+
+const pickupOrderLogger = (payload) => {
+  console.log('EVENT pickup');
+  console.log(`\t - Time: ${payload.time}`);
+  console.log(`\t - Store: ${payload.store}`);
+  console.log(`\t - OrderID: ${payload.orderID}`);
+  console.log(`\t - Customer: ${payload.customer}`);
+  console.log(`\t - Address: ${payload.address}`);
+
+  cspsIO.to('driver').emit('pickup', payload);
 }
 
-server.on('connection', (socket) => {
-  console.log(`socket ${socket.id} joined the party!`);
-  // socketPool.push(socket);
-  socket.on('data', cspsLogger);
-});
+const inTransitHandler = (payload) => {
+  console.log(`EVENT in-transit order ${payload.orderID}`);
+}
+
+const endEventDelivered = (payload) => {
+  console.log(`EVENT delivered order ${payload.orderID}`);
+  cspsIO.to(payload.store).emit('delivered', payload);
+}
