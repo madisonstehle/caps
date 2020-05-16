@@ -18,6 +18,11 @@ cspsIO.on('connection', (socket) => {
   socket.on('delivered', endEventDelivered)
 });
 
+
+/**
+ * Logs the new order details to the console
+ * @param   {object} payload
+ */
 const pickupOrderLogger = (payload) => {
   console.log('EVENT pickup');
   console.log(`\t - Time: ${payload.time}`);
@@ -29,10 +34,18 @@ const pickupOrderLogger = (payload) => {
   cspsIO.to('driver').emit('pickup', payload);
 }
 
+/**
+ * Logs that the order is in transit
+ * @param   {object} payload
+ */
 const inTransitHandler = (payload) => {
   console.log(`EVENT in-transit order ${payload.orderID}`);
 }
 
+/**
+ * Logs that the order has been successfully delivered
+ * @param   {object} payload
+ */
 const endEventDelivered = (payload) => {
   console.log(`EVENT delivered order ${payload.orderID}`);
   cspsIO.to(payload.store).emit('delivered', payload);

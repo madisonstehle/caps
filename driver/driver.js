@@ -5,6 +5,10 @@ const driverSocket = sio.connect('http://localhost:3000/csps');
 
 driverSocket.emit('join', 'driver');
 
+/**
+ * Logs that the driver picked up the order, emits in-transit and delivered, logs delivered
+ * @param   {object} payload
+ */
 const driverActions = (payload) => {
   console.log(`DRIVER picked up order ${payload.orderID}`);
   
